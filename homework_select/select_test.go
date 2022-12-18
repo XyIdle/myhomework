@@ -1,11 +1,10 @@
-//go:build howework
-
 package orm
 
 import (
-	"github.com/stretchr/testify/assert"
 	"myhomework/homework_select/internal/errs"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSelector_OrderBy(t *testing.T) {
@@ -382,7 +381,7 @@ func TestSelector_Build(t *testing.T) {
 			q: NewSelector[TestModel](db).
 				Where(Raw("`age` < ?", 18).AsPredicate()),
 			wantQuery: &Query{
-				SQL:  "SELECT * FROM `test_model` WHERE `age` < ?;",
+				SQL:  "SELECT * FROM `test_model` WHERE (`age` < ?);",
 				Args: []any{18},
 			},
 		},
