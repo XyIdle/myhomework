@@ -12,7 +12,7 @@ import (
 func main() {
 	s1 := service.NewServer("business", "localhost:8080")
 	s1.Handle("/", http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		_, _ = writer.Write([]byte("hello"))
+		_, _ = writer.Write([]byte("hello\n"))
 	}))
 	s2 := service.NewServer("admin", "localhost:8081")
 	app := service.NewApp([]*service.Server{s1, s2}, service.WithShutdownCallbacks(StoreCacheToDBCallback))
