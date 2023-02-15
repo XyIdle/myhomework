@@ -89,7 +89,13 @@ func setFuncField(service Service, p Proxy, s serialize.Serializer, c compressio
 				}
 
 				if len(resp.Data) > 0 {
-					err = s.Decode(resp.Data, retVal.Interface())
+					decompressData, derr := c.Decompress(resp.Data)
+					if derr != nil {
+						// 反序列化的 error
+						return []reflect.Value{retVal, reflect.ValueOf(derr)}
+					}
+
+					err = s.Decode(decompressData, retVal.Interface())
 					if err != nil {
 						// 反序列化的 error
 						return []reflect.Value{retVal, reflect.ValueOf(err)}

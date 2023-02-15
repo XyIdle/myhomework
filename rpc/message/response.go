@@ -7,17 +7,17 @@ import (
 type Response struct {
 	HeadLength uint32
 	BodyLength uint32
-	RequestID uint32
-	Version uint8
+	RequestID  uint32
+	Version    uint8
 	Compresser uint8
 	Serializer uint8
-	Error []byte
+	Error      []byte
 
 	Data []byte
 }
 
 func EncodeResp(resp *Response) []byte {
-	bs := make([]byte, resp.HeadLength + resp.BodyLength)
+	bs := make([]byte, resp.HeadLength+resp.BodyLength)
 
 	// 1. 写入头部长度
 	binary.BigEndian.PutUint32(bs[:4], resp.HeadLength)

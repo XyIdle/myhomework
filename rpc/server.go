@@ -207,5 +207,6 @@ func (s *reflectionStub) invoke(ctx context.Context, req *message.Request) ([]by
 			return nil, er
 		}
 	}
-	return res, err
+	compressData, _ := compressor.Compress(res)
+	return compressData, err
 }
