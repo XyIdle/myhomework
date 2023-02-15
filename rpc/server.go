@@ -3,7 +3,6 @@ package rpc
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"myhomework/rpc/compression"
 	"myhomework/rpc/compression/zstd"
@@ -131,7 +130,7 @@ func (s *Server) Invoke(ctx context.Context, req *message.Request) (*message.Res
 	//	return nil, errors.New("micro: 微服务服务端 oneway 请求")
 	//}
 	service, ok := s.services[req.ServiceName]
-	service.compressions = s.compressions
+	service.compressions = s.compressions // 将compressions 传递给 reflectionStub
 	resp := &message.Response{
 		RequestID:  req.RequestID,
 		Version:    req.Version,
@@ -175,7 +174,6 @@ func (s *reflectionStub) invoke(ctx context.Context, req *message.Request) ([]by
 	if !ok {
 		return nil, errors.New("micro: 不支持的序列化协议")
 	}
-	fmt.Println("req.Compresser: ", req.Compresser, s.compressions)
 
 	compressor, ok := s.compressions[req.Compresser]
 	if !ok {
